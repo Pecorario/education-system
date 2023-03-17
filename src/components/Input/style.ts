@@ -1,4 +1,9 @@
-import styled from 'styled-components';
+import { HTMLInputTypeAttribute } from 'react';
+import styled, { css } from 'styled-components';
+
+interface InputProps {
+  type: HTMLInputTypeAttribute | undefined;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -9,7 +14,25 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const Label = styled.label``;
+export const Label = styled.label<InputProps>`
+  ${props =>
+    props.type === 'file' &&
+    css`
+      width: 100%;
+      padding: 10px;
+
+      background: #333;
+      color: #fff;
+
+      text-transform: uppercase;
+      text-align: center;
+
+      border-radius: 5px;
+
+      /* display: block; */
+      cursor: pointer;
+    `}
+`;
 
 export const InputContainer = styled.input`
   width: 100%;
@@ -25,5 +48,9 @@ export const InputContainer = styled.input`
     background: gray;
     opacity: 0.8;
     color: white;
+  }
+
+  &[type='file'] {
+    display: none;
   }
 `;

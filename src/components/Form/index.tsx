@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { BeatLoader } from 'react-spinners';
 
@@ -6,12 +6,12 @@ import * as S from './style';
 
 interface FormProps {
   textButton: string;
-  isLoading: boolean;
-  onSubmit: () => void;
-  children: React.ReactNode;
+  isLoading?: boolean;
+  children: ReactNode;
+  onSubmit?: (e: React.SyntheticEvent) => void;
 }
 
-const Form: FC<FormProps> = ({ onSubmit, isLoading, children, textButton }) => {
+const Form: FC<FormProps> = ({ onSubmit, isLoading, textButton, children }) => {
   return (
     <S.FormContainer onSubmit={onSubmit}>
       {children}

@@ -13,8 +13,31 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h2`
-  font-size: 36px;
+  font-size: 2rem;
   margin-bottom: 40px;
 
   color: black;
+`;
+
+export const ImageInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const DocContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const DocInputContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
 `;

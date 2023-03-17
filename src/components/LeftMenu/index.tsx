@@ -15,6 +15,11 @@ interface LeftMenuProps {
 const LeftMenu: FC<LeftMenuProps> = ({ open, setOpen, title }) => {
   const navigate = useNavigate();
 
+  const goToPage = (page: string) => {
+    navigate(page);
+    setOpen(false);
+  };
+
   return (
     <Drawer
       size="xs"
@@ -28,9 +33,9 @@ const LeftMenu: FC<LeftMenuProps> = ({ open, setOpen, title }) => {
 
       <nav>
         <S.List>
-          <S.Line onClick={() => navigate('/dashboard')}>Dashboard</S.Line>
-          <S.Line onClick={() => navigate('/schools')}>Colégios</S.Line>
-          <S.Line onClick={() => navigate('/classrooms')}>Salas</S.Line>
+          <S.Line onClick={() => goToPage('/dashboard')}>Dashboard</S.Line>
+          <S.Line onClick={() => goToPage('/schools')}>Colégios</S.Line>
+          <S.Line onClick={() => goToPage('/classrooms')}>Salas</S.Line>
         </S.List>
       </nav>
     </Drawer>

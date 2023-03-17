@@ -1,8 +1,9 @@
-import Form from '../../components/Form';
-import Input from '../../components/Input';
+import Form from '@/components/Form';
+import Input from '@/components/Input';
+
 import * as S from './style';
 
-export default function Schools() {
+const Schools = () => {
   return (
     <S.Container>
       <S.Title>Criar novo colégio</S.Title>
@@ -14,4 +15,6 @@ export default function Schools() {
       </Form>
     </S.Container>
   );
-}
+};
+
+export default Schools;

@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Input from '../../components/Input';
-import Form from '../../components/Form';
+import Input from '@/components/Input';
+import Form from '@/components/Form';
 
 import * as S from './style';
 
-export default function Login() {
+const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       setIsLoading(true);
@@ -32,7 +32,7 @@ export default function Login() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <S.Container>
@@ -48,6 +48,12 @@ export default function Login() {
           disabled={isLoading}
         />
       </Form>
+
+      <S.LinkItem to="/register">
+        Não tem uma conta ainda? Cadastre-se
+      </S.LinkItem>
     </S.Container>
   );
-}
+};
+
+export default Login;
