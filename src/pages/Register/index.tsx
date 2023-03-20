@@ -37,33 +37,22 @@ const Register = () => {
 
   return (
     <S.Container>
-      <Form onSubmit={handleSubmit} isLoading={isLoading} textButton="Entrar">
-        <Input
-          text="Nome"
-          placeholder="Digite seu nome completo"
-          disabled={isLoading}
-        />
-        <Input
-          text="E-mail"
-          placeholder="Digite seu e-mail"
-          type="email"
-          disabled={isLoading}
-        />
-        <Input
-          text="Senha"
-          placeholder="Digite a sua senha"
-          type="password"
-          disabled={isLoading}
-        />
-        <Input
-          text="Senha"
-          placeholder="Digite a sua senha novamente"
-          type="password"
-          disabled={isLoading}
-        />
-      </Form>
+      <S.FormContainer>
+        <S.Title>Cadastre-se</S.Title>
+        <Form
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          textButton="Cadastrar"
+          paddingTop="30px"
+        >
+          <Input text="Nome" disabled={isLoading} />
+          <Input text="E-mail" type="email" disabled={isLoading} />
+          <Input text="Senha" type="password" disabled={isLoading} />
+          <Input text="Confirme a senha" type="password" disabled={isLoading} />
+        </Form>
 
-      <S.LinkItem to="/">Já tem uma conta? Entre</S.LinkItem>
+        <S.LinkItem to="/">Já tem uma conta? Entre</S.LinkItem>
+      </S.FormContainer>
     </S.Container>
   );
 };

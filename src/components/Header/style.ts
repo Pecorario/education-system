@@ -12,7 +12,7 @@ export const Container = styled.header`
   align-items: center;
   justify-content: center;
 
-  background: #4424d3;
+  background: #00bbff;
 
   h1 {
     color: white;
@@ -33,7 +33,7 @@ export const Button = styled.button`
 
   position: absolute;
   top: calc(35px - 1rem);
-  left: 9%;
+  left: 20px;
 
   svg {
     font-size: 2rem;
@@ -41,11 +41,34 @@ export const Button = styled.button`
   }
 
   svg:hover {
-    filter: brightness(0.8);
+    fill: #fc9700;
   }
 
   @media (max-width: 480px) {
     top: calc(25px - 1rem);
     left: 4%;
+  }
+`;
+
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  h1 {
+    font-family: 'Righteous', cursive;
+    font-size: 40px;
+    color: #ffb042;
+    font-weight: 400;
+  }
+
+  img {
+    width: 50px;
+    height: auto;
+  }
+
+  span {
+    color: white;
+    font: inherit;
+    font-weight: 400;
   }
 `;

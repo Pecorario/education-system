@@ -1,25 +1,41 @@
 import styled from 'styled-components';
 
-export const FormContainer = styled.form`
+interface FormProps {
+  paddingTop?: string;
+}
+
+export const FormContainer = styled.form<FormProps>`
+  width: 100%;
+
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 25px;
 
-  width: 100%;
-  max-width: 350px;
+  padding-top: ${props => (props.paddingTop ? props.paddingTop : '50px')};
+
+  position: relative;
 `;
 
 export const Button = styled.button`
   width: 100%;
-  height: 40px;
+  height: 60px;
 
   border-radius: 5px;
 
-  background: blue;
-  color: white;
+  color: #00bbff;
+  border: 2px solid #00bbff;
+  background: transparent;
+
+  position: absolute;
+  bottom: 20px;
+
+  transition: all 0.2s;
 
   :not(:disabled):hover {
-    filter: brightness(0.8);
+    background: #00bbff;
+    color: white;
     cursor: pointer;
   }
 

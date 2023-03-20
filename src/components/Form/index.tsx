@@ -8,12 +8,19 @@ interface FormProps {
   textButton: string;
   isLoading?: boolean;
   children: ReactNode;
-  onSubmit?: (e: React.SyntheticEvent) => void;
+  paddingTop?: string;
+  onSubmit?: (e: React.FormEvent) => void;
 }
 
-const Form: FC<FormProps> = ({ onSubmit, isLoading, textButton, children }) => {
+const Form: FC<FormProps> = ({
+  onSubmit,
+  isLoading,
+  textButton,
+  paddingTop,
+  children
+}) => {
   return (
-    <S.FormContainer onSubmit={onSubmit}>
+    <S.FormContainer onSubmit={onSubmit} paddingTop={paddingTop}>
       {children}
       <S.Button disabled={isLoading}>
         {isLoading ? <BeatLoader color="#FFF" /> : textButton}

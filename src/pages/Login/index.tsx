@@ -36,22 +36,22 @@ const Login = () => {
 
   return (
     <S.Container>
-      <Form onSubmit={handleSubmit} isLoading={isLoading} textButton="Entrar">
-        <Input
-          text="E-mail"
-          placeholder="Digite o texto aqui"
-          disabled={isLoading}
-        />
-        <Input
-          text="Senha"
-          placeholder="Digite o texto aqui"
-          disabled={isLoading}
-        />
-      </Form>
+      <S.FormContainer>
+        <S.Title>Faça seu login</S.Title>
+        <Form
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          textButton="Entrar"
+          paddingTop="30px"
+        >
+          <Input text="E-mail" disabled={isLoading} />
+          <Input text="Senha" disabled={isLoading} />
+        </Form>
 
-      <S.LinkItem to="/register">
-        Não tem uma conta ainda? Cadastre-se
-      </S.LinkItem>
+        <S.LinkItem to="/sign-up">
+          Não tem uma conta ainda? Cadastre-se
+        </S.LinkItem>
+      </S.FormContainer>
     </S.Container>
   );
 };

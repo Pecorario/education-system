@@ -1,6 +1,7 @@
 import { FC, Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawer } from 'rsuite';
+import { HiMenu } from 'react-icons/hi';
 
 import './styles.css';
 
@@ -27,10 +28,11 @@ const LeftMenu: FC<LeftMenuProps> = ({ open, setOpen, title }) => {
       open={open}
       onClose={() => setOpen(false)}
     >
-      <Drawer.Header>
-        <Drawer.Title>{title}</Drawer.Title>
-      </Drawer.Header>
-
+      <S.Header>
+        <S.Button onClick={() => setOpen(false)}>
+          <HiMenu />
+        </S.Button>
+      </S.Header>
       <nav>
         <S.List>
           <S.Line onClick={() => goToPage('/dashboard')}>Dashboard</S.Line>

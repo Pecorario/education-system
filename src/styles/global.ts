@@ -6,8 +6,21 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *, body, label, input, button {
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 400;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  .rs-drawer-left.rs-drawer-xs, .rs-drawer-right.rs-drawer-xs {
+    width: 300px;
+  }
+
+  .rs-drawer {
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 
   @media (max-width: 420px) {

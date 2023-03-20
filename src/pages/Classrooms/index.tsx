@@ -1,5 +1,7 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { IoDocument } from 'react-icons/io5';
+
+import axios from 'axios';
 
 import Form from '@/components/Form';
 import Input from '@/components/Input';
@@ -65,10 +67,21 @@ const Classrooms = () => {
     setProtocolName(files[0].name);
   };
 
+  const handleSubmit = async (e: FormEvent<Element>) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append('file', protocol!);
+
+    console.log(data);
+
+    await axios.post('http://localhost:5000/upload', data);
+  };
+
   return (
     <S.Container>
       <S.Title>Criar nova sala</S.Title>
-      <Form textButton="Cadastrar">
+      <Form textButton="Cadastrar" onSubmit={handleSubmit}>
         <Input text="Nome" />
         <Input text="Capacidade de mesas" type="number" />
 
