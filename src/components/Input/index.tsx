@@ -11,16 +11,20 @@ import * as S from './style';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   text: string;
   handleChange?: ChangeEventHandler;
+  width?: string;
+  isActiveInitial?: boolean;
 }
 
 const Input: FC<InputProps> = ({
   text,
   type,
   value,
-  handleChange,
+  handleChange = () => {},
+  width = '90%',
+  isActiveInitial = false,
   ...props
 }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(isActiveInitial);
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -29,19 +33,21 @@ const Input: FC<InputProps> = ({
       setIsActive(false);
     }
 
-    // handleChange(e);
+    handleChange(e);
   };
 
   return (
     <S.Container>
-      <S.Label htmlFor={text} type={type} isActive={isActive}>
+      <S.Label htmlFor={text} type={type} isActive={isActive} width={width}>
         {text}
       </S.Label>
       <S.InputContainer
         name={text}
         id={text}
         type={type}
-        onChange={e => handleChangeInput(e)}
+        value={value}
+        onChange={handleChangeInput}
+        width={width}
         {...props}
       />
     </S.Container>

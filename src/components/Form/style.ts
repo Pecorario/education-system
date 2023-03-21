@@ -19,7 +19,7 @@ export const FormContainer = styled.form<FormProps>`
 `;
 
 export const Button = styled.button`
-  width: 100%;
+  width: 90%;
   height: 60px;
 
   border-radius: 5px;
@@ -40,6 +40,8 @@ export const Button = styled.button`
   }
 
   :disabled {
-    opacity: 0.6;
+    opacity: 0.2;
+    background: #00bbff;
+    color: white;
   }
 `;

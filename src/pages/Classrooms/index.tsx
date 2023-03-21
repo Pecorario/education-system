@@ -1,122 +1,81 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { IoDocument } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 
+import api from '@/services/api';
 import axios from 'axios';
 
-import Form from '@/components/Form';
-import Input from '@/components/Input';
-import Select from '@/components/Select';
-import Toggle from '@/components/Toggle';
+import ListOfClassrooms from '@/components/ListOfClassrooms';
 
 import * as S from './style';
+import Loading from '@/components/Loading';
+
+interface SchoolProps {
+  id: number;
+  name: string;
+  city: string;
+  state: string;
+  symbol: string;
+}
+interface ClassroomProps {
+  id: number;
+  name: string;
+  deskCapacity: number;
+  schoolId: number;
+  school: SchoolProps;
+  isBlocked: boolean;
+  teachers: { name: string; id: number }[];
+  // classSchedule: string;
+  // protocol: string;
+}
 
 const Classrooms = () => {
-  const PROFESSORS = [
-    {
-      id: 1,
-      value: 'Prof. Eduardo'
-    },
-    {
-      id: 2,
-      value: 'Prof. Fernando'
-    },
-    {
-      id: 3,
-      value: 'Prof. Camila'
-    },
-    {
-      id: 4,
-      value: 'Prof. Paula'
-    }
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [classrooms, setClassrooms] = useState<ClassroomProps[]>([]);
 
-  const [classSchedule, setClassSchedule] = useState('');
-  const [classScheduleName, setClassScheduleName] = useState('');
-  const [protocolName, setProtocolName] = useState('');
-  const [protocol, setProtocol] = useState<File>();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const filesElement = useRef(null);
+  const handleLoadClassrooms = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get('/classrooms');
 
-  const handleChangeClassSchedule = (e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    const file = target.files as FileList;
-
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      'load',
-      () => {
-        if (typeof reader.result === 'string') {
-          setClassSchedule(reader.result);
+      setClassrooms(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
         }
-      },
-      false
-    );
+      }
 
-    if (file) {
-      setClassScheduleName(file[0].name);
-      reader.readAsDataURL(file[0]);
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleChangeProtocol = (e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    const files = target.files as FileList;
-
-    setProtocol(files[0]);
-    setProtocolName(files[0].name);
-  };
-
-  const handleSubmit = async (e: FormEvent<Element>) => {
-    e.preventDefault();
-
-    const data = new FormData();
-    data.append('file', protocol!);
-
-    console.log(data);
-
-    await axios.post('http://localhost:5000/upload', data);
-  };
+  useEffect(() => {
+    handleLoadClassrooms();
+  }, []);
 
   return (
-    <S.Container>
-      <S.Title>Criar nova sala</S.Title>
-      <Form textButton="Cadastrar" onSubmit={handleSubmit}>
-        <Input text="Nome" />
-        <Input text="Capacidade de mesas" type="number" />
-
-        <Select data={PROFESSORS} text="Professores" />
-
-        <S.ImageInputContainer>
-          <Input
-            text="Grade de Aulas"
-            type="file"
-            accept="image/*"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleChangeClassSchedule(e)
-            }
-          />
-          <img src={classSchedule} alt="" />
-        </S.ImageInputContainer>
-
-        <S.DocContainer>
-          <S.DocInputContainer>
-            {protocol && <IoDocument />}
-            <Input
-              text="Protocolo"
-              type="file"
-              accept=".doc, .docx"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChangeProtocol(e)
-              }
-            />
-          </S.DocInputContainer>
-          {protocol && <span>{protocolName}</span>}
-        </S.DocContainer>
-
-        <Toggle />
-      </Form>
-    </S.Container>
+    <>
+      {isLoading && <Loading />}
+      <S.Container>
+        <ListOfClassrooms
+          classrooms={classrooms}
+          handleLoadClassrooms={handleLoadClassrooms}
+        />
+      </S.Container>
+    </>
   );
 };
 

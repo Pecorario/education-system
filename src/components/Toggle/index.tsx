@@ -1,20 +1,27 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
+
 import Switch from 'react-switch';
 
-const Toggle = () => {
-  const [checked, setChecked] = useState(false);
+import * as S from './style';
 
+interface ToggleProps {
+  setIsBlocked: (value: boolean) => void;
+  isBlocked: boolean;
+}
+
+const Toggle: FC<ToggleProps> = ({ isBlocked, setIsBlocked }) => {
   function handleChange() {
-    setChecked(!checked);
+    setIsBlocked(!isBlocked);
   }
 
   return (
-    <div className="example">
+    <S.Container>
+      <S.Text>{isBlocked ? 'BLOQUEADA' : 'DESBLOQUEADA'}</S.Text>
       <Switch
-        checked={checked}
+        checked={isBlocked}
         onChange={handleChange}
         onColor="#86d3ff"
-        onHandleColor="#2693e6"
+        onHandleColor="#00bbff"
         handleDiameter={30}
         uncheckedIcon={false}
         checkedIcon={false}
@@ -25,8 +32,7 @@ const Toggle = () => {
         className="react-switch"
         id="material-switch"
       />
-      bloqueada
-    </div>
+    </S.Container>
   );
 };
 

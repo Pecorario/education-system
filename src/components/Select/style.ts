@@ -4,16 +4,19 @@ import styled, { css } from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   gap: 5px;
 
   width: 100%;
 `;
 
-export const Label = styled.label``;
+export const Label = styled.label`
+  width: 90%;
+`;
 
 export const SelectContainer = styled.select`
-  width: 100%;
+  width: 90%;
   height: 35px;
 
   border-radius: 5px;
@@ -22,7 +25,7 @@ export const SelectContainer = styled.select`
 
   color: black;
 
-  background: white;
+  background: #f2f2f2;
 
   :disabled {
     background: gray;

@@ -75,8 +75,8 @@ const Dashboard = () => {
 
   return (
     <S.Container>
-      <ListOfSchools schools={SCHOOLS} />
-      <ListOfClassrooms classrooms={CLASSROOMS} />
+      {/* <ListOfSchools schools={SCHOOLS} /> */}
+      {/* <ListOfClassrooms classrooms={CLASSROOMS} /> */}
     </S.Container>
   );
 };

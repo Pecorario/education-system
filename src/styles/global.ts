@@ -23,6 +23,26 @@ const GlobalStyle = createGlobalStyle`
     box-shadow: none;
   }
 
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgb(136, 136, 136, 0.2);
+      border-radius: 16px;
+
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00bbff;
+      border-radius: 16px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
   @media (max-width: 420px) {
     :root {
       font-size: 12px;

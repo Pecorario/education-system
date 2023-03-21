@@ -72,3 +72,36 @@ export const LogoContainer = styled.div`
     font-weight: 400;
   }
 `;
+
+export const LogoutContainer = styled.div`
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  position: absolute;
+  top: 0;
+  right: 30px;
+
+  cursor: pointer;
+
+  span {
+    font-size: 1rem;
+    line-height: 1rem;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  svg {
+    font-size: 1.3rem;
+    color: white;
+    transition: all 0.2s;
+  }
+
+  :hover span,
+  :hover svg {
+    color: #fc9700;
+  }
+`;

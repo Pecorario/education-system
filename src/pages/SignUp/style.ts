@@ -14,7 +14,7 @@ export const Container = styled.div`
 
 export const FormContainer = styled.div`
   width: 500px;
-  height: 620px;
+  height: 520px;
   padding: 40px;
 
   border-radius: 10px;

@@ -1,36 +1,71 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { BsFillPlusSquareFill } from 'react-icons/bs';
 
-import School from './Classroom';
+import Classroom from './Classroom';
+
+import ModalComponent from '@/components/ModalComponent';
+import NewClassroom from '@/components/NewClassroom';
 
 import * as S from './style';
 
+interface SchoolProps {
+  id: number;
+  name: string;
+  city: string;
+  state: string;
+  symbol: string;
+}
 interface ClassroomProps {
   id: number;
   name: string;
-  schoolId: number;
-  schoolName: string;
   deskCapacity: number;
+  schoolId: number;
+  school: SchoolProps;
   isBlocked: boolean;
-  idTeachers: number[];
-  classSchedule: string;
-  protocol: string;
+  teachers: { name: string; id: number }[];
+  // classSchedule: string;
+  // protocol: string;
 }
 
 interface ClassroomsProps {
   classrooms: ClassroomProps[];
+  // setClassrooms: Dispatch<SetStateAction<ClassroomProps[]> | []>;
+  handleLoadClassrooms: () => void;
 }
 
-const ListOfClassrooms: FC<ClassroomsProps> = ({ classrooms }) => {
-  return (
-    <S.Container>
-      <h2>Salas cadastradas</h2>
+const ListOfClassrooms: FC<ClassroomsProps> = ({
+  classrooms,
+  // setClassrooms,
+  handleLoadClassrooms
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-      <S.ListContainer>
-        {classrooms?.map(item => (
-          <School key={item.id} classroom={item} />
-        ))}
-      </S.ListContainer>
-    </S.Container>
+  return (
+    <>
+      <S.Container>
+        <S.TitleContainer>
+          <h2>Salas cadastradas</h2>
+          <BsFillPlusSquareFill onClick={() => setIsOpen(true)} />
+        </S.TitleContainer>
+
+        <S.ListContainer>
+          {classrooms?.map(item => (
+            <Classroom
+              key={item.id}
+              classroom={item}
+              handleLoadClassrooms={handleLoadClassrooms}
+            />
+          ))}
+        </S.ListContainer>
+      </S.Container>
+
+      <ModalComponent isOpen={isOpen} setIsOpen={setIsOpen}>
+        <NewClassroom
+          setIsOpen={setIsOpen}
+          handleLoadClassrooms={handleLoadClassrooms}
+        />
+      </ModalComponent>
+    </>
   );
 };
 

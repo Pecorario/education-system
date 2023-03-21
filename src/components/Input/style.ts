@@ -2,8 +2,9 @@ import { HTMLInputTypeAttribute } from 'react';
 import styled, { css } from 'styled-components';
 
 interface InputProps {
-  type: HTMLInputTypeAttribute | undefined;
-  isActive: boolean;
+  type?: HTMLInputTypeAttribute | undefined;
+  isActive?: boolean;
+  width: string;
 }
 
 export const Container = styled.div`
@@ -25,16 +26,16 @@ export const Container = styled.div`
 
 export const Label = styled.label<InputProps>`
   color: #434343;
-  width: 90%;
+  width: ${({ width }) => width};
 
   ${props =>
     props.type === 'file'
       ? css`
-          width: 100%;
-          padding: 10px;
+          padding: 15px;
 
-          background: #333;
+          background: #00bbff;
           color: #fff;
+          border: 1px solid #00bbff;
 
           text-transform: uppercase;
           text-align: center;
@@ -43,6 +44,12 @@ export const Label = styled.label<InputProps>`
 
           /* display: block; */
           cursor: pointer;
+          transition: all 0.2s;
+
+          :hover {
+            background: transparent;
+            color: #00bbff;
+          }
         `
       : css`
           position: absolute;
@@ -61,25 +68,21 @@ export const Label = styled.label<InputProps>`
     `}
 `;
 
-export const InputContainer = styled.input`
-  width: 90%;
+export const InputContainer = styled.input<InputProps>`
+  width: ${({ width }) => width};
   height: 35px;
 
   margin-top: 20px;
 
+  font-size: 18px;
+
   border: none;
   padding: 5px 12px;
 
-  color: black;
+  color: #434343;
   background: transparent;
 
   border-bottom: 1px solid #434343;
-
-  :disabled {
-    background: gray;
-    opacity: 0.8;
-    color: white;
-  }
 
   &[type='file'] {
     display: none;
@@ -87,5 +90,9 @@ export const InputContainer = styled.input`
 
   :focus {
     border-color: #00bbff;
+  }
+
+  :disabled {
+    opacity: 0.2;
   }
 `;

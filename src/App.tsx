@@ -1,13 +1,20 @@
-import { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Navigate
+} from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import LeftMenu from '@/components/LeftMenu';
 import Header from '@/components/Header';
+import Redirect from './components/Redirect';
 
 import Login from '@/pages/Login';
-import Register from '@/pages/Register';
+import SignUp from '@/pages/SignUp';
 import Dashboard from '@/pages/Dashboard';
 import Classrooms from '@/pages/Classrooms';
 import Schools from '@/pages/Schools';
@@ -17,15 +24,32 @@ import logoImg from '@/assets/logo.svg';
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const token = localStorage.getItem('token');
 
   const handleClick = () => {
     setIsOpen(prevState => !prevState);
   };
 
+  useEffect(() => {
+    if (token) {
+      if (location.pathname === '/' || location.pathname === '/sign-up') {
+        navigate('/dashboard');
+      }
+    }
+  }, []);
+
+  if (!token && location.pathname !== '/' && location.pathname !== '/sign-up') {
+    return <Navigate to="/" />;
+  }
+
   return (
     <Container>
-      {location.pathname !== '/' && location.pathname !== '/register' ? (
+      {token &&
+      location.pathname !== '/' &&
+      location.pathname !== '/sign-up' ? (
         <>
           <Header handleOpen={handleClick} />
 
@@ -42,10 +66,12 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/sign-up" element={<Register />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/classrooms" element={<Classrooms />} />
         <Route path="/schools" element={<Schools />} />
+
+        <Route path="*" element={<Redirect />} />
       </Routes>
     </Container>
   );
@@ -70,7 +96,7 @@ const LogoContainer = styled.div`
     margin-left: 10px;
     font-family: 'Righteous', cursive;
     font-size: 55px;
-    color: #fc9700;
+    color: #ffb042;
     font-weight: 400;
   }
 

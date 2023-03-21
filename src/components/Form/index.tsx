@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { BeatLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 
 import * as S from './style';
 
@@ -10,6 +10,7 @@ interface FormProps {
   children: ReactNode;
   paddingTop?: string;
   onSubmit?: (e: React.FormEvent) => void;
+  isDisabled?: boolean;
 }
 
 const Form: FC<FormProps> = ({
@@ -17,13 +18,18 @@ const Form: FC<FormProps> = ({
   isLoading,
   textButton,
   paddingTop,
-  children
+  children,
+  isDisabled = false
 }) => {
   return (
-    <S.FormContainer onSubmit={onSubmit} paddingTop={paddingTop}>
+    <S.FormContainer
+      onSubmit={onSubmit}
+      paddingTop={paddingTop}
+      autoComplete="off"
+    >
       {children}
-      <S.Button disabled={isLoading}>
-        {isLoading ? <BeatLoader color="#FFF" /> : textButton}
+      <S.Button disabled={isLoading || isDisabled}>
+        {isLoading ? <SyncLoader color="white" size="12px" /> : textButton}
       </S.Button>
     </S.FormContainer>
   );

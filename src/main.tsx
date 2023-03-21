@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
 
 import ResetStyle from '@/styles/reset';
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <GlobalStyle />
 
     <BrowserRouter>
-      <App />
+      <SnackbarProvider>
+        <App />
+      </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

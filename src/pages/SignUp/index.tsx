@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
@@ -10,10 +10,11 @@ import Form from '@/components/Form';
 
 import * as S from './style';
 
-const Login = () => {
+const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [repeatedPassword, setRepeatedPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -23,14 +24,18 @@ const Login = () => {
     try {
       setIsLoading(true);
 
-      const { data } = await api.post('/login', {
+      await api.post('/sign-up', {
         username,
-        password
+        password,
+        password_repeat: repeatedPassword
       });
 
-      localStorage.setItem('token', data.token);
+      enqueueSnackbar('Usuário cadastrado com sucesso', {
+        variant: 'success',
+        autoHideDuration: 2000
+      });
 
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         if (axios.isAxiosError(error)) {
@@ -61,16 +66,19 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleChangeRepeatedPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setRepeatedPassword(e.target.value);
+  };
+
   return (
     <S.Container>
       <S.FormContainer>
-        <S.Title>Faça seu login</S.Title>
+        <S.Title>Cadastre-se</S.Title>
         <Form
           onSubmit={handleSubmit}
           isLoading={isLoading}
-          textButton="Entrar"
+          textButton="Cadastrar"
           paddingTop="30px"
-          isDisabled={username === '' || password === ''}
         >
           <Input
             text="Nome de usuário"
@@ -85,14 +93,19 @@ const Login = () => {
             type="password"
             disabled={isLoading}
           />
+          <Input
+            text="Confirme a senha"
+            value={repeatedPassword}
+            handleChange={handleChangeRepeatedPassword}
+            type="password"
+            disabled={isLoading}
+          />
         </Form>
 
-        <S.LinkItem to="/sign-up">
-          Não tem uma conta ainda? Cadastre-se
-        </S.LinkItem>
+        <S.LinkItem to="/">Já tem uma conta? Entre</S.LinkItem>
       </S.FormContainer>
     </S.Container>
   );
 };
 
-export default Login;
+export default SignUp;
