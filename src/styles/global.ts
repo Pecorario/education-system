@@ -7,12 +7,15 @@ const GlobalStyle = createGlobalStyle`
 
   *, body, label, input, button {
     font-family: 'Ubuntu', sans-serif;
-    font-weight: 400;
   }
 
   input:focus {
     outline: none;
   }
+/* 
+  text {
+    font-weight: 500 !important;
+  } */
 
   .rs-drawer-left.rs-drawer-xs, .rs-drawer-right.rs-drawer-xs {
     width: 300px;

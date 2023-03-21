@@ -1,6 +1,10 @@
 import { HTMLInputTypeAttribute } from 'react';
 import styled, { css } from 'styled-components';
 
+interface SelectProps {
+  hasSmallSize?: boolean;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,7 +19,7 @@ export const Label = styled.label`
   width: 90%;
 `;
 
-export const SelectContainer = styled.select`
+export const SelectContainer = styled.select<SelectProps>`
   width: 90%;
   height: 35px;
 
@@ -26,6 +30,22 @@ export const SelectContainer = styled.select`
   color: black;
 
   background: #f2f2f2;
+
+  ${props =>
+    props.hasSmallSize &&
+    css`
+      width: 100%;
+      height: 30px;
+      padding: 5px;
+
+      font-size: 0.7rem;
+      font-weight: 500;
+
+      option {
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+    `};
 
   :disabled {
     background: gray;

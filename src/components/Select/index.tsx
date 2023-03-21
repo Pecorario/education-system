@@ -8,16 +8,27 @@ interface DataProps {
 }
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  text: string;
+  text?: string;
   data: DataProps[];
+  hasSmallSize?: boolean;
 }
 
-const Select: FC<SelectProps> = ({ text, data, ...props }) => {
+const Select: FC<SelectProps> = ({
+  text,
+  data,
+  hasSmallSize = false,
+  ...props
+}) => {
   return (
     <S.Container>
-      <S.Label htmlFor={text}>{text}</S.Label>
+      {text && <S.Label htmlFor={text}>{text}</S.Label>}
 
-      <S.SelectContainer name={text} id={text} {...props}>
+      <S.SelectContainer
+        name={text}
+        id={text}
+        hasSmallSize={hasSmallSize}
+        {...props}
+      >
         {data.map(item => (
           <option key={item.id} value={item.id}>
             {item.name}
