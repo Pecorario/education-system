@@ -1,5 +1,6 @@
-import Modal from '@mui/material/Modal';
 import { FC, ReactNode } from 'react';
+
+import Modal from '@mui/material/Modal';
 
 import * as S from './style';
 

@@ -5,9 +5,9 @@ import api from '@/services/api';
 import axios from 'axios';
 
 import ListOfSchools from '@/components/ListOfSchools';
+import Loading from '@/components/Loading';
 
 import * as S from './style';
-import Loading from '@/components/Loading';
 
 interface ClassroomProps {
   id: number;

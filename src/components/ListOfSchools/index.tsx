@@ -1,10 +1,11 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC, useState } from 'react';
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 
 import School from './School';
 
 import ModalComponent from '@/components/ModalComponent';
 import NewSchool from '@/components/NewSchool';
+import NotFound from '@/components/NotFound';
 
 import * as S from './style';
 
@@ -26,7 +27,6 @@ interface SchoolProps {
 
 interface SchoolsProps {
   schools: SchoolProps[];
-  // setSchools: Dispatch<SetStateAction<SchoolProps[]> | []>;
   handleLoadSchools: () => void;
 }
 
@@ -42,13 +42,17 @@ const ListOfSchools: FC<SchoolsProps> = ({ schools, handleLoadSchools }) => {
         </S.TitleContainer>
 
         <S.ListContainer>
-          {schools?.map(item => (
-            <School
-              key={item.id}
-              school={item}
-              handleLoadSchools={handleLoadSchools}
-            />
-          ))}
+          {schools.length > 0 ? (
+            schools?.map(item => (
+              <School
+                key={item.id}
+                school={item}
+                handleLoadSchools={handleLoadSchools}
+              />
+            ))
+          ) : (
+            <NotFound />
+          )}
         </S.ListContainer>
       </S.Container>
 

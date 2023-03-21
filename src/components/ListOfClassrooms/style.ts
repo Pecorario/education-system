@@ -2,38 +2,53 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding-bottom: 20px;
+
+  height: 100%;
 `;
 
 export const ListContainer = styled.div`
+  padding-top: 55px;
+  max-height: 100%;
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 
+  overflow-y: auto;
+
+  padding-right: 10px;
+
   @media (min-width: 481px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 769px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media (min-width: 1025px) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @media (min-width: 1301px) {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 `;
 
 export const TitleContainer = styled.div`
-  width: fit-content;
+  width: 100%;
+
+  position: fixed;
+
+  top: 70px;
+  padding: 20px 0px;
+  background: white;
+
+  z-index: 10;
 
   display: flex;
   align-items: center;
   gap: 2rem;
-
-  margin-bottom: 20px;
 
   svg {
     font-size: 30px;
@@ -43,7 +58,7 @@ export const TitleContainer = styled.div`
 
   h2 {
     font-size: 1.75rem;
-    line-height: 1.75rem;
+    line-height: 1;
     font-weight: 500;
   }
 

@@ -9,7 +9,7 @@ export const Container = styled.div<ClassroomProps>`
   background: rgb(252, 151, 0, 0.9);
 
   width: 100%;
-  height: fit-content;
+  height: 140px;
 
   padding: 15px;
   padding-bottom: 40px;
@@ -23,17 +23,17 @@ export const Container = styled.div<ClassroomProps>`
   transition: all 0.2s;
 
   ${({ isBlocked }) => isBlocked && 'opacity: 0.7'};
-  /* 
+
   ${({ isOpen }) =>
     isOpen &&
     css`
-      height: 310px;
-    `} */
+      height: fit-content;
+    `}
 `;
 
 export const ActionsContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 
   position: absolute;
   top: 15px;
@@ -52,13 +52,12 @@ export const ActionsContainer = styled.div`
 
 export const Name = styled.h3`
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-  line-height: 1.1rem;
+  font-size: 1rem;
+  line-height: 1rem;
 
-  /* margin-bottom: 5px; */
   color: white;
   padding-right: 65px;
-  font-weight: 600;
+  font-weight: 500;
 
   word-break: break-word;
 

@@ -42,7 +42,6 @@ export const Label = styled.label<InputProps>`
 
           border-radius: 5px;
 
-          /* display: block; */
           cursor: pointer;
           transition: all 0.2s;
 
@@ -64,7 +63,6 @@ export const Label = styled.label<InputProps>`
     props.isActive &&
     css`
       transform: translate(-20px, -120%) scale(0.9);
-      /* transform: translate(-20%, -120%) scale(0.9); */
     `}
 `;
 

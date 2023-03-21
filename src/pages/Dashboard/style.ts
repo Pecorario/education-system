@@ -7,6 +7,8 @@ interface StyledProps {
   backgroundColor?: string;
   width?: string;
   minWidth?: string;
+  span?: string;
+  paddingBottom?: string;
 }
 
 export const Container = styled.div`
@@ -116,13 +118,15 @@ export const ItemText = styled.span`
 
 export const ChartsContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(45% - 10px);
 
   display: flex;
 
   gap: 1rem;
 
-  padding-bottom: 1rem;
+  @media (min-width: 1201px) {
+    height: 35%;
+  }
 `;
 
 export const ChartCard = styled.div<StyledProps>`
@@ -132,7 +136,7 @@ export const ChartCard = styled.div<StyledProps>`
   min-width: ${props => props.minWidth || ''};
 
   padding: 15px;
-  padding-bottom: 0;
+  padding-bottom: ${props => props.paddingBottom || '1rem'};
 
   height: 100%;
 
@@ -140,11 +144,19 @@ export const ChartCard = styled.div<StyledProps>`
   flex-direction: column;
 `;
 
-export const Chart = styled.div`
+export const Chart = styled.div<StyledProps>`
   height: 100%;
   width: 100%;
 
   padding-top: 5px;
+
+  ${props =>
+    props.span &&
+    css`
+      .recharts-xAxis.xAxis tspan {
+        display: none;
+      }
+    `}
 `;
 
 export const TitleContainer = styled.div`

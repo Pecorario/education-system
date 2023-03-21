@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 interface SchoolProps {
   isOpen?: boolean;
@@ -21,20 +21,6 @@ export const Container = styled.div<SchoolProps>`
   flex-direction: column;
 
   transition: all 0.2s;
-
-  /* @media (min-width: 769px) {
-    height: 210px;
-  }
-
-  @media (min-width: 1025px) {
-    height: 220px;
-  }
-
-  @media (min-width: 1301px) {
-    height: 250px;
-  } */
-
-  /* ${({ isOpen }) => isOpen && css``} */
 `;
 
 export const ActionsContainer = styled.div`
@@ -65,7 +51,6 @@ export const ContainerNameSchool = styled.div`
     font-size: 1.1rem;
     line-height: 1.1rem;
 
-    /* margin-bottom: 5px; */
     color: white;
     padding-right: 65px;
     font-weight: 600;

@@ -35,13 +35,13 @@ export const TeachersContainer = styled.div`
 export const Label = styled.p`
   color: #434343;
   width: 100%;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 10px;
 `;
 
 export const TeacherContainer = styled.div`
   height: 100%;
-  max-height: 120px;
+  max-height: 112px;
 
   overflow-y: auto;
 
@@ -69,50 +69,17 @@ export const TeacherItem = styled.div<TeacherProps>`
       ? css`
           svg {
             fill: #00bbff;
+            font-size: 16px;
           }
         `
       : css`
           svg {
             fill: #434343;
+            font-size: 16px;
           }
         `}
 `;
 
-export const TeacherName = styled.p``;
-
-export const ImageInputContainer = styled.div`
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-export const DocContainer = styled.div`
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-export const DocInputContainer = styled.div`
-  width: 90%;
-
-  display: flex;
-  align-items: center;
-
-  svg {
-    width: 30px;
-    height: 30px;
-
-    margin-right: 0.5rem;
-  }
-
-  span {
-    font-size: 16px;
-    word-break: break-all;
-  }
+export const TeacherName = styled.p`
+  font-size: 0.8rem;
 `;

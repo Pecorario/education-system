@@ -11,17 +11,6 @@ export const Container = styled.div`
   flex-direction: column;
 
   background: #f2f2f2;
-
-  // tava assim:
-  /* padding: 20px 32px;
-
-width: 100%;
-height: 100%;
-
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center; */
 `;
 
 export const Title = styled.h2`

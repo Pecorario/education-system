@@ -1,19 +1,19 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { GiTeacher } from 'react-icons/gi';
 import { IoSchoolSharp, IoPeopleSharp } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
+import { SyncLoader } from 'react-spinners';
 import { useSnackbar } from 'notistack';
 
 import api from '@/services/api';
 import axios from 'axios';
 
 import ModalComponent from '@/components/ModalComponent';
+import EditClassroom from '@/components/NewClassroom';
 
 import * as S from './style';
-import EditClassroom from '@/components/NewClassroom';
-import { SyncLoader } from 'react-spinners';
 
 interface SchoolProps {
   id: number;
@@ -31,13 +31,9 @@ interface Classroom {
   isBlocked: boolean;
   school: SchoolProps;
   teachers: { name: string; id: number }[];
-  // classSchedule: string;
-  // protocol: string;
 }
 interface ClassroomProps {
   classroom: Classroom;
-  // classrooms: Classroom[];
-  // setClassrooms: Dispatch<SetStateAction<Classroom[]> | []>;
   handleLoadClassrooms: () => void;
 }
 

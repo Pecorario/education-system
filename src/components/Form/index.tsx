@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-
 import { SyncLoader } from 'react-spinners';
 
 import * as S from './style';

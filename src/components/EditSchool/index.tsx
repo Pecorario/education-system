@@ -130,7 +130,6 @@ const EditSchool: FC<EditSchoolProps> = ({
           disabled={isLoading}
           isActiveInitial
         />
-        {/* <Input text="Símbolo" type="file" value={name} handleChange={handleChangeName}/> */}
         <Input
           text="Símbolo (URL)"
           type="url"

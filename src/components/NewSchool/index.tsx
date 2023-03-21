@@ -92,7 +92,6 @@ const NewSchool: FC<NewSchoolProps> = ({ setIsOpen, handleLoadSchools }) => {
         <Input text="Nome" value={name} handleChange={handleChangeName} />
         <Input text="Estado" value={state} handleChange={handleChangeState} />
         <Input text="Cidade" value={city} handleChange={handleChangeCity} />
-        {/* <Input text="Símbolo" type="file" value={name} handleChange={handleChangeName}/> */}
         <Input
           text="Símbolo"
           type="url"

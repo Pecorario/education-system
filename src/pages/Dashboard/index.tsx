@@ -1,141 +1,26 @@
+import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   PieChart,
   Pie,
-  Sector,
-  ComposedChart,
-  Line,
-  Area
+  Sector
 } from 'recharts';
 
-import Select from '@/components/Select';
-
-import * as S from './style';
-import { FC, useEffect, useState } from 'react';
-import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import api from '@/services/api';
 
-const data = [
-  {
-    name: 'Sesi',
-    totalClassrooms: 40,
-    totalBlockedClassrooms: 5
-  },
-  {
-    name: 'Kelvin',
-    totalClassrooms: 30,
-    totalBlockedClassrooms: 2
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 60,
-    totalBlockedClassrooms: 12
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 47,
-    totalBlockedClassrooms: 3
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 60,
-    totalBlockedClassrooms: 24
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 20,
-    totalBlockedClassrooms: 13
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 40,
-    totalBlockedClassrooms: 7
-  },
-  {
-    name: 'ETEC',
-    totalClassrooms: 80,
-    totalBlockedClassrooms: 0
-  }
-];
+import Select from '@/components/Select';
+import Loading from '@/components/Loading';
+import NotFound from '@/components/NotFound';
 
-const data01 = [
-  {
-    name: 'Sala 1',
-    deskCapacity: 40
-  },
-  {
-    name: 'Sala 2',
-    deskCapacity: 50
-  },
-  {
-    name: 'Sala 3',
-    deskCapacity: 20
-  },
-  {
-    name: 'Sala 4',
-    deskCapacity: 25
-  },
-  {
-    name: 'Sala 5',
-    deskCapacity: 14
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 30
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 30
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 30
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 30
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 30
-  },
-  {
-    name: 'Sala 6',
-    deskCapacity: 80
-  }
-];
-
-const data02 = [
-  {
-    name: 'Page A',
-    designedClassrooms: 10
-  },
-  {
-    name: 'Page B',
-    designedClassrooms: 20
-  },
-  {
-    name: 'Page C',
-    designedClassrooms: 30
-  },
-  {
-    name: 'Page D',
-    designedClassrooms: 4
-  },
-  {
-    name: 'Page E',
-    designedClassrooms: 4
-  }
-];
+import * as S from './style';
 
 interface GeneralInfo {
   totalSchools: number;
@@ -217,12 +102,14 @@ const renderActiveShape = (props: any) => {
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
+        fontSize="14px"
         fill="#fc9700"
       >{`Cap. Mesas: ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
+        fontSize="12px"
         textAnchor={textAnchor}
         fill="#999"
       >
@@ -449,171 +336,210 @@ const Dashboard = () => {
   }, [tableSchoolId]);
 
   return (
-    <S.Container>
-      <S.InfoAndBarChartContainer>
-        <S.CardsContainer>
-          <S.Card>
-            <S.Title>Informações Gerais</S.Title>
+    <>
+      {isLoading && <Loading />}
 
-            <S.ItemsContainer>
-              <S.Item>
-                <S.ItemTitle>Colégios:</S.ItemTitle>
-                <S.ItemText>{generalInfoData?.totalSchools}</S.ItemText>
-              </S.Item>
-              <S.Item>
-                <S.ItemTitle>Professores:</S.ItemTitle>
-                <S.ItemText>{generalInfoData?.totalTeachers}</S.ItemText>
-              </S.Item>
-              <S.ItemDetails>
-                <S.ItemDetailsContent>
-                  <S.ItemTitle>Salas:</S.ItemTitle>
-                  <S.ItemText>{generalInfoData?.totalClassrooms}</S.ItemText>
-                </S.ItemDetailsContent>
+      <S.Container>
+        <S.InfoAndBarChartContainer>
+          <S.CardsContainer>
+            <S.Card>
+              {generalInfoData ? (
+                <>
+                  <S.Title>Informações Gerais</S.Title>
 
-                <S.ItemDetailsContent paddingLeft="20px" fontSize="0.7rem">
-                  <S.ItemTitle>Desbloqueadas:</S.ItemTitle>
-                  <S.ItemText>
-                    {generalInfoData?.unblockedClassrooms}
-                  </S.ItemText>
-                </S.ItemDetailsContent>
+                  <S.ItemsContainer>
+                    <S.Item>
+                      <S.ItemTitle>Colégios:</S.ItemTitle>
+                      <S.ItemText>{generalInfoData?.totalSchools}</S.ItemText>
+                    </S.Item>
+                    <S.Item>
+                      <S.ItemTitle>Professores:</S.ItemTitle>
+                      <S.ItemText>{generalInfoData?.totalTeachers}</S.ItemText>
+                    </S.Item>
+                    <S.ItemDetails>
+                      <S.ItemDetailsContent>
+                        <S.ItemTitle>Salas:</S.ItemTitle>
+                        <S.ItemText>
+                          {generalInfoData?.totalClassrooms}
+                        </S.ItemText>
+                      </S.ItemDetailsContent>
 
-                <S.ItemDetailsContent paddingLeft="20px" fontSize="0.7rem">
-                  <S.ItemTitle>Bloqueadas:</S.ItemTitle>
-                  <S.ItemText>{generalInfoData?.blockedClassrooms}</S.ItemText>
-                </S.ItemDetailsContent>
-              </S.ItemDetails>
-            </S.ItemsContainer>
-          </S.Card>
+                      <S.ItemDetailsContent
+                        paddingLeft="20px"
+                        fontSize="0.7rem"
+                      >
+                        <S.ItemTitle>Desbloqueadas:</S.ItemTitle>
+                        <S.ItemText>
+                          {generalInfoData?.unblockedClassrooms}
+                        </S.ItemText>
+                      </S.ItemDetailsContent>
 
-          <S.Card>
-            <S.Title>Colégio</S.Title>
-            <Select
-              data={schools}
-              hasSmallSize={true}
-              value={tableSchoolId}
-              onChange={e => setTableSchoolId(Number(e.target.value))}
-            />
+                      <S.ItemDetailsContent
+                        paddingLeft="20px"
+                        fontSize="0.7rem"
+                      >
+                        <S.ItemTitle>Bloqueadas:</S.ItemTitle>
+                        <S.ItemText>
+                          {generalInfoData?.blockedClassrooms}
+                        </S.ItemText>
+                      </S.ItemDetailsContent>
+                    </S.ItemDetails>
+                  </S.ItemsContainer>
+                </>
+              ) : (
+                <NotFound />
+              )}
+            </S.Card>
 
-            <S.ItemsContainer hasMarginTop>
-              <S.Item>
-                <S.ItemTitle>Salas desbloqueadas:</S.ItemTitle>
-                <S.ItemText>
-                  {classroomsBySchoolData?.unblockedClassrooms || '-'}
-                </S.ItemText>
-              </S.Item>
-              <S.Item>
-                <S.ItemTitle>Salas bloqueadas:</S.ItemTitle>
-                <S.ItemText>
-                  {classroomsBySchoolData?.blockedClassrooms}
-                </S.ItemText>
-              </S.Item>
-              <S.Item>
-                <S.ItemTitle>Capacidade Máxima:</S.ItemTitle>
-                <S.ItemText>{classroomsBySchoolData?.totalCapacity}</S.ItemText>
-              </S.Item>
-            </S.ItemsContainer>
-          </S.Card>
-        </S.CardsContainer>
+            <S.Card>
+              <S.Title>Colégio</S.Title>
+              {classroomsBySchoolData ? (
+                <>
+                  <Select
+                    data={schools}
+                    hasSmallSize={true}
+                    value={tableSchoolId}
+                    onChange={e => setTableSchoolId(Number(e.target.value))}
+                  />
 
-        <S.ChartCard>
-          <S.Title>Colégio x Salas</S.Title>
-          <S.Chart>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                width={500}
-                height={300}
-                data={schoolsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                {/* <Legend /> */}
-                <Bar
-                  name="Quantidade de salas bloqueadas"
-                  dataKey="totalBlockedClassrooms"
-                  fill="#fc9700"
+                  <S.ItemsContainer hasMarginTop>
+                    <S.Item>
+                      <S.ItemTitle>Salas desbloqueadas:</S.ItemTitle>
+                      <S.ItemText>
+                        {classroomsBySchoolData?.unblockedClassrooms || '-'}
+                      </S.ItemText>
+                    </S.Item>
+                    <S.Item>
+                      <S.ItemTitle>Salas bloqueadas:</S.ItemTitle>
+                      <S.ItemText>
+                        {classroomsBySchoolData?.blockedClassrooms}
+                      </S.ItemText>
+                    </S.Item>
+                    <S.Item>
+                      <S.ItemTitle>Capacidade Máxima:</S.ItemTitle>
+                      <S.ItemText>
+                        {classroomsBySchoolData?.totalCapacity}
+                      </S.ItemText>
+                    </S.Item>
+                  </S.ItemsContainer>
+                </>
+              ) : (
+                <NotFound />
+              )}
+            </S.Card>
+          </S.CardsContainer>
+
+          <S.ChartCard>
+            <S.Title>Colégio x Salas</S.Title>
+            <S.Chart>
+              {schoolsData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={schoolsData}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar
+                      name="Quantidade de salas bloqueadas"
+                      dataKey="totalBlockedClassrooms"
+                      fill="#fc9700"
+                    />
+                    <Bar
+                      name="Quantidade total de salas"
+                      dataKey="totalClassrooms"
+                      fill="#00e88f"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <NotFound />
+              )}
+            </S.Chart>
+          </S.ChartCard>
+        </S.InfoAndBarChartContainer>
+
+        <S.ChartsContainer>
+          <S.ChartCard width="40%" minWidth="560px">
+            <S.TitleContainer>
+              <S.Title>Salas x Capacidade</S.Title>
+              {schools.length > 0 && (
+                <Select
+                  width="30%"
+                  data={schools}
+                  value={chartSchoolId}
+                  hasSmallSize={true}
+                  onChange={e => setChartSchoolId(Number(e.target.value))}
                 />
-                <Bar
-                  name="Quantidade total de salas"
-                  dataKey="totalClassrooms"
-                  fill="#00e88f"
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </S.Chart>
-        </S.ChartCard>
-      </S.InfoAndBarChartContainer>
+              )}
+            </S.TitleContainer>
 
-      <S.ChartsContainer>
-        <S.ChartCard width="40%" minWidth="560px">
-          <S.TitleContainer>
-            <S.Title>Salas x Capacidade</S.Title>
-            <Select
-              width="30%"
-              data={schools}
-              value={chartSchoolId}
-              hasSmallSize={true}
-              onChange={e => setChartSchoolId(Number(e.target.value))}
-            />
-          </S.TitleContainer>
+            <S.Chart>
+              {classrooms.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      activeIndex={activeIndex}
+                      activeShape={renderActiveShape}
+                      data={classrooms}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      fill="#00e88f"
+                      dataKey="deskCapacity"
+                      onMouseEnter={(_, index) => onPieEnter(index)}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <NotFound />
+              )}
+            </S.Chart>
+          </S.ChartCard>
 
-          <S.Chart>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart width={400} height={400}>
-                <Pie
-                  activeIndex={activeIndex}
-                  activeShape={renderActiveShape}
-                  data={classrooms}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#00e88f"
-                  dataKey="deskCapacity"
-                  onMouseEnter={(_, index) => onPieEnter(index)}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </S.Chart>
-        </S.ChartCard>
+          <S.ChartCard width="60%" paddingBottom="0">
+            <S.Title>Professores x Salas designadas</S.Title>
 
-        <S.ChartCard width="60%">
-          <S.Title>Professores x Salas designadas</S.Title>
-
-          <S.Chart>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                width={500}
-                height={300}
-                data={teachersData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                {/* <Legend /> */}
-                <Bar
-                  name="Salas Designadas"
-                  dataKey="designedClassrooms"
-                  fill="#fc9700"
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </S.Chart>
-          {/* <S.Chart>
+            <S.Chart span="none">
+              {teachersData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={teachersData}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5
+                    }}
+                  >
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    {/* <Legend /> */}
+                    <Bar
+                      name="Salas Designadas"
+                      dataKey="designedClassrooms"
+                      fill="#fc9700"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <NotFound />
+              )}
+            </S.Chart>
+            {/* <S.Chart>
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart
                 layout="vertical"
@@ -641,9 +567,10 @@ const Dashboard = () => {
               </ComposedChart>
             </ResponsiveContainer>
           </S.Chart> */}
-        </S.ChartCard>
-      </S.ChartsContainer>
-    </S.Container>
+          </S.ChartCard>
+        </S.ChartsContainer>
+      </S.Container>
+    </>
   );
 };
 

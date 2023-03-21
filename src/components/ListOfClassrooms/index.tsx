@@ -1,10 +1,11 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC, useState } from 'react';
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 
 import Classroom from './Classroom';
 
 import ModalComponent from '@/components/ModalComponent';
 import NewClassroom from '@/components/NewClassroom';
+import NotFound from '@/components/NotFound';
 
 import * as S from './style';
 
@@ -23,19 +24,15 @@ interface ClassroomProps {
   school: SchoolProps;
   isBlocked: boolean;
   teachers: { name: string; id: number }[];
-  // classSchedule: string;
-  // protocol: string;
 }
 
 interface ClassroomsProps {
   classrooms: ClassroomProps[];
-  // setClassrooms: Dispatch<SetStateAction<ClassroomProps[]> | []>;
   handleLoadClassrooms: () => void;
 }
 
 const ListOfClassrooms: FC<ClassroomsProps> = ({
   classrooms,
-  // setClassrooms,
   handleLoadClassrooms
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,14 +46,17 @@ const ListOfClassrooms: FC<ClassroomsProps> = ({
         </S.TitleContainer>
 
         <S.ListContainer>
-          {classrooms?.map(item => (
-            <Classroom
-              key={item.id}
-              classroom={item}
-              handleLoadClassrooms={handleLoadClassrooms}
-            />
-          ))}
+          {classrooms.length > 0 &&
+            classrooms?.map(item => (
+              <Classroom
+                key={item.id}
+                classroom={item}
+                handleLoadClassrooms={handleLoadClassrooms}
+              />
+            ))}
         </S.ListContainer>
+
+        {classrooms.length === 0 && <NotFound />}
       </S.Container>
 
       <ModalComponent isOpen={isOpen} setIsOpen={setIsOpen}>

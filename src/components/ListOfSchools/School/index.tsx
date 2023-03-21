@@ -1,8 +1,9 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { IoPeopleSharp } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
+import { SyncLoader } from 'react-spinners';
 import { useSnackbar } from 'notistack';
 
 import api from '@/services/api';
@@ -12,7 +13,6 @@ import ModalComponent from '@/components/ModalComponent';
 import EditSchool from '@/components/EditSchool';
 
 import * as S from './style';
-import { SyncLoader } from 'react-spinners';
 
 interface ClassroomProps {
   id: number;
@@ -33,8 +33,6 @@ interface School {
 
 interface SchoolProps {
   school: School;
-  // schools: School[];
-  // setSchools: Dispatch<SetStateAction<School[]> | []>;
   handleLoadSchools: () => void;
 }
 

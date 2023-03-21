@@ -9,8 +9,9 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import Toggle from '@/components/Toggle';
 
-import * as S from './style';
 import SelectTeachers from './SelectTeachers';
+
+import * as S from './style';
 
 interface ClassroomProps {
   id: number;
@@ -27,15 +28,6 @@ interface ClassroomProps {
 interface TeacherProps {
   id: number;
   name: string;
-  classrooms: ClassroomProps[];
-}
-
-interface SchoolProps {
-  id: number;
-  name: string;
-  city: string;
-  state: string;
-  symbol: string;
   classrooms: ClassroomProps[];
 }
 
@@ -68,55 +60,11 @@ const NewClassroom: FC<NewClassroomProps> = ({
     classroom ? classroom.isBlocked : false
   );
   const [schoolId, setSchoolId] = useState(classroom ? classroom.schoolId : 0);
-  // const [classSchedule, setClassSchedule] = useState('');
-  // const [classScheduleName, setClassScheduleName] = useState('');
-  // const [protocolName, setProtocolName] = useState('');
-  // const [protocol, setProtocol] = useState<File>();
-
-  // const filesElement = useRef(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  // const handleChangeClassSchedule = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const target = e.target as HTMLInputElement;
-  //   const file = target.files as FileList;
-
-  //   const reader = new FileReader();
-
-  //   reader.addEventListener(
-  //     'load',
-  //     () => {
-  //       if (typeof reader.result === 'string') {
-  //         setClassSchedule(reader.result);
-  //       }
-  //     },
-  //     false
-  //   );
-
-  //   if (file) {
-  //     setClassScheduleName(file[0].name);
-  //     reader.readAsDataURL(file[0]);
-  //   }
-  // };
-
-  // const handleChangeProtocol = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const target = e.target as HTMLInputElement;
-  //   const files = target.files as FileList;
-
-  //   setProtocol(files[0]);
-  //   setProtocolName(files[0].name);
-  // };
-
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-
-    // const data = new FormData();
-    // data.append('file', protocol!);
-
-    // console.log(data);
-
-    // await axios.post('http://localhost:5000/upload', data);
-
     try {
       setIsLoading(true);
 
@@ -296,36 +244,6 @@ const NewClassroom: FC<NewClassroomProps> = ({
             ))}
           </S.TeacherContainer>
         </S.TeachersContainer>
-
-        {/* <S.ImageInputContainer>
-          <Input
-            text="Grade de Aulas"
-            type="file"
-            accept="image/*"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleChangeClassSchedule(e)
-            }
-          />
-          <img src={classSchedule} alt="" />
-        </S.ImageInputContainer>
-
-        <S.DocContainer>
-          <Input
-            text="Protocolo"
-            type="file"
-            accept=".doc, .docx"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleChangeProtocol(e)
-            }
-          />
-
-          {protocol && (
-            <S.DocInputContainer>
-              <IoDocument />
-              <span>{protocolName}</span>
-            </S.DocInputContainer>
-          )}
-          </S.DocContainer> */}
 
         <Toggle isBlocked={isBlocked} setIsBlocked={setIsBlocked} />
       </Form>

@@ -2,12 +2,21 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding-bottom: 20px;
+
+  height: 100%;
 `;
 
 export const ListContainer = styled.div`
+  padding-top: 55px;
+  max-height: 100%;
+
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+
+  overflow-y: auto;
+
+  padding-right: 10px;
 
   @media (min-width: 481px) {
     grid-template-columns: repeat(2, 1fr);
@@ -27,13 +36,18 @@ export const ListContainer = styled.div`
 `;
 
 export const TitleContainer = styled.div`
-  width: fit-content;
+  width: 100%;
+
+  position: fixed;
+  top: 70px;
+  padding: 20px 0;
+  background: white;
+
+  z-index: 10;
 
   display: flex;
   align-items: center;
   gap: 2rem;
-
-  margin-bottom: 20px;
 
   svg {
     font-size: 30px;

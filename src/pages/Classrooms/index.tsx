@@ -5,9 +5,9 @@ import api from '@/services/api';
 import axios from 'axios';
 
 import ListOfClassrooms from '@/components/ListOfClassrooms';
+import Loading from '@/components/Loading';
 
 import * as S from './style';
-import Loading from '@/components/Loading';
 
 interface SchoolProps {
   id: number;
@@ -24,8 +24,6 @@ interface ClassroomProps {
   school: SchoolProps;
   isBlocked: boolean;
   teachers: { name: string; id: number }[];
-  // classSchedule: string;
-  // protocol: string;
 }
 
 const Classrooms = () => {
