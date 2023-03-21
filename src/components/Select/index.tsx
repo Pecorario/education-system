@@ -11,16 +11,18 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   text?: string;
   data: DataProps[];
   hasSmallSize?: boolean;
+  width?: string;
 }
 
 const Select: FC<SelectProps> = ({
   text,
   data,
   hasSmallSize = false,
+  width,
   ...props
 }) => {
   return (
-    <S.Container>
+    <S.Container width={width}>
       {text && <S.Label htmlFor={text}>{text}</S.Label>}
 
       <S.SelectContainer

@@ -3,16 +3,17 @@ import styled, { css } from 'styled-components';
 
 interface SelectProps {
   hasSmallSize?: boolean;
+  width?: string;
 }
 
-export const Container = styled.div`
+export const Container = styled.div<SelectProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
 
   gap: 5px;
 
-  width: 100%;
+  width: ${props => props.width || '100%'};
 `;
 
 export const Label = styled.label`

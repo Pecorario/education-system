@@ -19,48 +19,51 @@ import {
 import Select from '@/components/Select';
 
 import * as S from './style';
-import { useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
+import axios from 'axios';
+import api from '@/services/api';
 
 const data = [
   {
     name: 'Sesi',
     totalClassrooms: 40,
-    totalClassroomsBlocked: 5
+    totalBlockedClassrooms: 5
   },
   {
     name: 'Kelvin',
     totalClassrooms: 30,
-    totalClassroomsBlocked: 2
+    totalBlockedClassrooms: 2
   },
   {
     name: 'ETEC',
     totalClassrooms: 60,
-    totalClassroomsBlocked: 12
+    totalBlockedClassrooms: 12
   },
   {
     name: 'ETEC',
     totalClassrooms: 47,
-    totalClassroomsBlocked: 3
+    totalBlockedClassrooms: 3
   },
   {
     name: 'ETEC',
     totalClassrooms: 60,
-    totalClassroomsBlocked: 24
+    totalBlockedClassrooms: 24
   },
   {
     name: 'ETEC',
     totalClassrooms: 20,
-    totalClassroomsBlocked: 13
+    totalBlockedClassrooms: 13
   },
   {
     name: 'ETEC',
     totalClassrooms: 40,
-    totalClassroomsBlocked: 7
+    totalBlockedClassrooms: 7
   },
   {
     name: 'ETEC',
     totalClassrooms: 80,
-    totalClassroomsBlocked: 0
+    totalBlockedClassrooms: 0
   }
 ];
 
@@ -134,7 +137,21 @@ const data02 = [
   }
 ];
 
-const renderActiveShape = props => {
+interface GeneralInfo {
+  totalSchools: number;
+  totalTeachers: number;
+  totalClassrooms: number;
+  blockedClassrooms: number;
+  unblockedClassrooms: number;
+}
+
+interface ClassroomsInfo {
+  totalCapacity: number;
+  blockedClassrooms: number;
+  unblockedClassrooms: number;
+}
+
+const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
@@ -216,11 +233,221 @@ const renderActiveShape = props => {
 };
 
 const Dashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [tableSchoolId, setTableSchoolId] = useState(0);
+  const [chartSchoolId, setChartSchoolId] = useState(0);
+
+  const [schools, setSchools] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+
+  const [generalInfoData, setGeneralInfoData] = useState<GeneralInfo>();
+  const [classroomsBySchoolData, setClassroomsBySchool] =
+    useState<ClassroomsInfo>();
+
+  const [schoolsData, setSchoolsData] = useState([]);
+  const [teachersData, setTeachersData] = useState([]);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const onPieEnter = (index: number) => {
     setActiveIndex(index);
   };
+
+  const handleLoadSchools = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get('/schools');
+
+      setTableSchoolId(data[0].id);
+      setChartSchoolId(data[0].id);
+
+      setSchools(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoadClassroomsBySchoolId = async () => {
+    try {
+      if (chartSchoolId !== 0) {
+        setIsLoading(true);
+        const { data } = await api.get(`/schools/${chartSchoolId}`);
+
+        setClassrooms(data.classrooms);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoadClassroomsInfoBySchoolId = async () => {
+    try {
+      if (tableSchoolId !== 0) {
+        setIsLoading(true);
+        const { data } = await api.get(
+          `/dashboard/classrooms-info/${tableSchoolId}`
+        );
+
+        setClassroomsBySchool(data);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoadGeneralInfo = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get('/dashboard/general-info');
+
+      setGeneralInfoData(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoadSchoolsData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get('/dashboard/schools-data');
+
+      setSchoolsData(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLoadTeachersData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await api.get('/dashboard/teachers-data');
+
+      setTeachersData(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
+          return enqueueSnackbar(
+            error.response?.data.message || 'Houve um erro inesperado',
+            {
+              variant: 'error',
+              autoHideDuration: 2000
+            }
+          );
+        }
+      }
+
+      return enqueueSnackbar('Houve um erro inesperado', {
+        variant: 'error',
+        autoHideDuration: 2000
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadSchools();
+    handleLoadClassroomsBySchoolId();
+    handleLoadClassroomsInfoBySchoolId();
+    handleLoadGeneralInfo();
+    handleLoadSchoolsData();
+    handleLoadTeachersData();
+  }, []);
+
+  useEffect(() => {
+    handleLoadClassroomsBySchoolId();
+  }, [chartSchoolId]);
+
+  useEffect(() => {
+    handleLoadClassroomsInfoBySchoolId();
+  }, [tableSchoolId]);
+
   return (
     <S.Container>
       <S.InfoAndBarChartContainer>
@@ -231,26 +458,28 @@ const Dashboard = () => {
             <S.ItemsContainer>
               <S.Item>
                 <S.ItemTitle>Colégios:</S.ItemTitle>
-                <S.ItemText>30</S.ItemText>
+                <S.ItemText>{generalInfoData?.totalSchools}</S.ItemText>
               </S.Item>
               <S.Item>
                 <S.ItemTitle>Professores:</S.ItemTitle>
-                <S.ItemText>20</S.ItemText>
+                <S.ItemText>{generalInfoData?.totalTeachers}</S.ItemText>
               </S.Item>
               <S.ItemDetails>
                 <S.ItemDetailsContent>
                   <S.ItemTitle>Salas:</S.ItemTitle>
-                  <S.ItemText>38</S.ItemText>
+                  <S.ItemText>{generalInfoData?.totalClassrooms}</S.ItemText>
                 </S.ItemDetailsContent>
 
                 <S.ItemDetailsContent paddingLeft="20px" fontSize="0.7rem">
                   <S.ItemTitle>Desbloqueadas:</S.ItemTitle>
-                  <S.ItemText>38</S.ItemText>
+                  <S.ItemText>
+                    {generalInfoData?.unblockedClassrooms}
+                  </S.ItemText>
                 </S.ItemDetailsContent>
 
                 <S.ItemDetailsContent paddingLeft="20px" fontSize="0.7rem">
                   <S.ItemTitle>Bloqueadas:</S.ItemTitle>
-                  <S.ItemText>38</S.ItemText>
+                  <S.ItemText>{generalInfoData?.blockedClassrooms}</S.ItemText>
                 </S.ItemDetailsContent>
               </S.ItemDetails>
             </S.ItemsContainer>
@@ -258,20 +487,29 @@ const Dashboard = () => {
 
           <S.Card>
             <S.Title>Colégio</S.Title>
-            <Select data={[{ id: 1, name: 'Sesi' }]} hasSmallSize={true} />
+            <Select
+              data={schools}
+              hasSmallSize={true}
+              value={tableSchoolId}
+              onChange={e => setTableSchoolId(Number(e.target.value))}
+            />
 
             <S.ItemsContainer hasMarginTop>
               <S.Item>
-                <S.ItemTitle>Salas ativas:</S.ItemTitle>
-                <S.ItemText>38</S.ItemText>
+                <S.ItemTitle>Salas desbloqueadas:</S.ItemTitle>
+                <S.ItemText>
+                  {classroomsBySchoolData?.unblockedClassrooms || '-'}
+                </S.ItemText>
               </S.Item>
               <S.Item>
                 <S.ItemTitle>Salas bloqueadas:</S.ItemTitle>
-                <S.ItemText>10</S.ItemText>
+                <S.ItemText>
+                  {classroomsBySchoolData?.blockedClassrooms}
+                </S.ItemText>
               </S.Item>
               <S.Item>
                 <S.ItemTitle>Capacidade Máxima:</S.ItemTitle>
-                <S.ItemText>3800</S.ItemText>
+                <S.ItemText>{classroomsBySchoolData?.totalCapacity}</S.ItemText>
               </S.Item>
             </S.ItemsContainer>
           </S.Card>
@@ -284,7 +522,7 @@ const Dashboard = () => {
               <BarChart
                 width={500}
                 height={300}
-                data={data}
+                data={schoolsData}
                 margin={{
                   top: 5,
                   right: 30,
@@ -299,7 +537,7 @@ const Dashboard = () => {
                 {/* <Legend /> */}
                 <Bar
                   name="Quantidade de salas bloqueadas"
-                  dataKey="totalClassroomsBlocked"
+                  dataKey="totalBlockedClassrooms"
                   fill="#fc9700"
                 />
                 <Bar
@@ -315,14 +553,24 @@ const Dashboard = () => {
 
       <S.ChartsContainer>
         <S.ChartCard width="40%" minWidth="560px">
-          <S.Title>Salas x Capacidade</S.Title>
+          <S.TitleContainer>
+            <S.Title>Salas x Capacidade</S.Title>
+            <Select
+              width="30%"
+              data={schools}
+              value={chartSchoolId}
+              hasSmallSize={true}
+              onChange={e => setChartSchoolId(Number(e.target.value))}
+            />
+          </S.TitleContainer>
+
           <S.Chart>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={400} height={400}>
                 <Pie
                   activeIndex={activeIndex}
                   activeShape={renderActiveShape}
-                  data={data01}
+                  data={classrooms}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -341,11 +589,37 @@ const Dashboard = () => {
 
           <S.Chart>
             <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={teachersData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                {/* <Legend /> */}
+                <Bar
+                  name="Salas Designadas"
+                  dataKey="designedClassrooms"
+                  fill="#fc9700"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </S.Chart>
+          {/* <S.Chart>
+            <ResponsiveContainer width="100%" height="100%">
               <ComposedChart
                 layout="vertical"
                 width={500}
                 height={400}
-                data={data02}
+                data={teachersData}
                 margin={{
                   top: 20,
                   right: 20,
@@ -361,12 +635,12 @@ const Dashboard = () => {
                 <Bar
                   name="Salas Designadas"
                   dataKey="designedClassrooms"
-                  barSize={20}
+                  barSize={10}
                   fill="#fc9700"
                 />
               </ComposedChart>
             </ResponsiveContainer>
-          </S.Chart>
+          </S.Chart> */}
         </S.ChartCard>
       </S.ChartsContainer>
     </S.Container>
